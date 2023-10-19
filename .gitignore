@@ -1,0 +1,16 @@
+.teamcity/target
+.teamcity/.idea
+
+.vscode/*
+!.vscode/extensions.json
+coverage
+dist
+node_modules
+packages/app/.env
+*.generated.ts
+.env
+.pnpm-debug.log
+packages/app/lighthouse/*.html
+.idea/*
+**/db-data/*
+

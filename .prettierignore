@@ -1,0 +1,11 @@
+dist
+dist-ce
+*.md
+*.generated.ts
+stats.html
+packages/app/index.html
+coverage
+lighthouse_*
+packages/invicti-theme/src/core
+packages/ng-app/src/Acunetix-API-Documentation.html
+.history

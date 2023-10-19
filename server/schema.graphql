@@ -1,0 +1,30 @@
+type Query {
+  greeting: String
+  job(id: ID!): Job
+  jobs: [Job!]
+}
+
+type Mutation {
+  addJob(newValues: JobInput!): AddJobResponse!
+}
+
+type AddJobResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  job: Job
+}
+
+input JobInput {
+  id: ID!
+  title: String!
+  company: String!
+  description: String!
+}
+
+type Job {
+  id: ID!
+  title: String!
+  company: String!
+  description: String!
+}
