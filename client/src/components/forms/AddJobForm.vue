@@ -16,8 +16,7 @@
   const jobDescription = defineInputBinds('jobDescription');
 
   const addJobHandler = async (newJobValues) => {
-    const query = JSON.stringify({
-      query: `
+    const query = `
         mutation AddJob($newValues: JobInput!) {
           addJob(newValues: $newValues) {
             job {
@@ -28,8 +27,7 @@
             }
           }
         }
-    `,
-    });
+    `;
 
     const response = await fetch(`${config.API_URL}/graphql`, {
       method: 'POST',
@@ -39,9 +37,11 @@
       body: JSON.stringify({
         query,
         variables: {
-          input: {
+          newValues: {
             id: '00',
-            ...newJobValues,
+            title: newJobValues.jobTitle,
+            company: newJobValues.jobCompany,
+            description: newJobValues.jobDescription,
           },
         },
       }),
