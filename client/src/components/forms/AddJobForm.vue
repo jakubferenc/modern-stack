@@ -2,6 +2,7 @@
   import { useForm } from 'vee-validate';
   import { object, string } from 'yup';
   import config from '@@/config/index.ts';
+  import SelectCompany from '@/components/forms/SelectCompany.vue';
 
   const { values, errors, meta, handleSubmit, defineInputBinds } = useForm({
     validationSchema: object({
@@ -13,7 +14,6 @@
 
   const jobTitle = defineInputBinds('jobTitle');
   const jobDescription = defineInputBinds('jobDescription');
-  const jobCompany = defineInputBinds('jobCompany');
 
   const addJobHandler = async (newJobValues) => {
     const query = JSON.stringify({
@@ -51,7 +51,7 @@
   };
 
   function onSuccess(values: object) {
-    addJobHandler(JSON.stringify(values));
+    addJobHandler(values);
   }
 
   function onInvalidSubmit(
@@ -66,6 +66,8 @@
 </script>
 
 <template>
+  <h1>{{ values }}</h1>
+  <h2>{{ meta }}</h2>
   <form class="add-job-form" @submit="onSubmit">
     <div class="form-input__wrapper">
       <label for="title">Title</label>
@@ -82,16 +84,12 @@
       </div>
     </div>
     <div class="form-input__wrapper">
-      <label for="title">Company</label>
-      <div class="form-input__input">
-        <input name="jobCompany" id="title" v-bind="jobCompany" />
-        <span class="error">{{ errors.jobCompany }}</span>
-      </div>
+      <SelectCompany />
     </div>
     <div class="form__footer">
       <button
         class="button--submit"
-        :disabled="!meta.touched || Object.keys(errors).length > 0"
+        :disabled="!meta.dirty || Object.keys(errors).length > 0"
       >
         Add Job
       </button>
