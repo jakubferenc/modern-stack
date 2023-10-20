@@ -9,5 +9,4 @@ VALUES
   ('Project Manager', 'Agile Solutions', 'Oversee project lifecycles, ensuring on-time delivery and effective collaboration among cross-functional teams.'),
   ('DevOps Engineer', 'CloudOps Technologies', 'Streamline development and deployment processes through automation, monitoring, and continuous integration.'),
   ('QA Engineer', 'QualityAssure Inc.', 'Perform rigorous testing to ensure the quality and functionality of software applications, identifying and reporting bugs.'),
-  ('Technical Support Specialist', 'HelpDesk Solutions', 'Provide technical assistance and support to users, troubleshoot issues, and ensure smooth software usage.')
-;
+  ('Technical Support Specialist', 'HelpDesk Solutions', 'Provide technical assistance and support to users, troubleshoot issues, and ensure smooth software usage.');

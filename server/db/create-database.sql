@@ -1,5 +1,6 @@
-DROP TABLE [IF EXISTS] jobs
-CREATE TABLE IF NOT EXISTS jobs
+DROP TABLE IF EXISTS jobs;
+
+CREATE TABLE jobs
 (
     id SERIAL,
     title text,
