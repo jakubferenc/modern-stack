@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev-server": "ts-node --esm server.ts"
+    "dev-server": "nodemon"
   },
   "nodemonConfig": {
     "ext": "graphql,js,ts"

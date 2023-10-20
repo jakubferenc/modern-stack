@@ -25,7 +25,7 @@ input JobInput {
 type Job {
   id: ID!
   title: String!
-  date: String!
+  date: String
   company: String!
   description: String!
 }

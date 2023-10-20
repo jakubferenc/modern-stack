@@ -29,6 +29,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "exclude": ["node_modules"],
-  "include": ["./*.ts"],
+  "include": ["./*.ts", "src/resolvers.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
