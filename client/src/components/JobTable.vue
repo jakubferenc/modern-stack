@@ -1,7 +1,13 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   defineProps<{
-    jobs: { title: string; id: string; company: string; description: string }[];
+    jobs: {
+      title: string;
+      id: string;
+      company: string;
+      description: string;
+      date: string;
+    }[];
   }>();
   const title = ref('Jobs Table');
 </script>
@@ -15,6 +21,7 @@
         <th>title</th>
         <th>company</th>
         <th>description</th>
+        <th>date</th>
       </tr>
     </thead>
     <tbody>
@@ -23,6 +30,7 @@
         <td>{{ job.title }}</td>
         <td>{{ job.company }}</td>
         <td>{{ job.description }}</td>
+        <td>{{ job.date }}</td>
         <td><router-link :to="`jobs/${job.id}`">Detail</router-link></td>
       </tr>
     </tbody>

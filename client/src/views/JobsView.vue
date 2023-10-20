@@ -10,7 +10,7 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `query { jobs { id, title, company, description } }`,
+        query: `query { jobs { id, title, company, description, date } }`,
       }),
     });
     const { data } = await response.json();
