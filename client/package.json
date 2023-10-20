@@ -10,9 +10,6 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier .  --write"
   },
-  "nodemonConfig": {
-    "ext": "graphql,js,ts"
-  },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.4.0",
     "eslint": "^8.51.0",
