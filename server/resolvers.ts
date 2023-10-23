@@ -1,4 +1,4 @@
-import { getJobs, getJob, addJob } from './db/index.ts';
+import { getJobs, addJob } from './db/index.ts';
 
 // Resolve the GraphQL queries
 export const resolvers = {
@@ -6,23 +6,15 @@ export const resolvers = {
     greeting: () => 'Hello GraphQL World!',
     jobs: async () => {
       const jobs = await getJobs();
-      console.log(jobs);
       return jobs?.map((job) => {
         return {
           ...job,
-          date: new Date(job.created_at).toLocaleString('cs-CZ'),
         }
       });
     },
-    job: async (_root: object, args: { id: string }) => {
-      const job = await getJob(args.id);
-      return {
-        code: 200,
-        success: true,
-        message: 'Job fetched successfully',
-        job,
-      }
-    },
+  },
+  Job: {
+    date: (job) => new Date(job.created_at).toLocaleString('cs-CZ'),
   },
   Mutation: {
     addJob: async (_: object, args: { newValues: object }) => {
