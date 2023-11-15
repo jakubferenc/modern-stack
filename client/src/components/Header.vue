@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import { ref } from 'vue';
-  const count = ref(0);
+  const loggedIn = ref(false);
 </script>
 
 <template>
   <nav class="main-menu">
-    <ul>
+    <ul class="main-menu__main">
       <li class="main-menu__link">
         <router-link to="/">Home</router-link>
       </li>
@@ -15,10 +15,15 @@
       <li class="main-menu__link">
         <router-link to="/jobs/add">Add job</router-link>
       </li>
-      <li class="main-menu__link">
+    </ul>
+    <ul class="main-menu__user">
+      <li v-if="loggedIn" class="main-menu__link">
+        <router-link to="/login">User</router-link>
+      </li>
+      <li v-if="!loggedIn" class="main-menu__link">
         <router-link to="/login">Login</router-link>
       </li>
-      <li class="main-menu__link">
+      <li v-if="loggedIn" class="main-menu__link">
         <router-link to="/logout">Logout</router-link>
       </li>
     </ul>
@@ -27,6 +32,9 @@
 
 <style lang="sass" scoped>
   .main-menu
+    display: flex
+    justify-content: space-between
+    align-items: center
     ul
         margin: 0
         padding: 0

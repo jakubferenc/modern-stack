@@ -4,12 +4,19 @@ import Home from "@/views/HomeView.vue";
 import Jobs from "@/views/JobsView.vue";
 import JobDetail from "@/views/JobDetailView.vue";
 import AddJob from "@/views/AddJobView.vue";
+import Login from "@/views/LoginView.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    meta: { title: "Login" },
+    component: Login,
   },
   {
     path: "/jobs",

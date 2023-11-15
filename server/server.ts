@@ -18,6 +18,10 @@ const apolloServer = new ApolloServer({ typeDefs, resolvers });
 await apolloServer.start();
 app.use('/graphql', apolloMiddleware(apolloServer));
 
+app.get('/login', (_, res) => { 
+  res.send('Hello from Login!');
+});
+
 app.listen({ port: PORT }, () => {
   console.log(`Server running on port ${PORT}`);
 });
