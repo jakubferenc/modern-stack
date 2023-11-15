@@ -3,6 +3,7 @@
   import { object, string } from 'yup';
   import config from '@@/config/index.ts';
   import SelectCompany from '@/components/forms/SelectCompany.vue';
+  import Button from 'primevue/button';
 
   const { values, errors, meta, handleSubmit, defineInputBinds } = useForm({
     validationSchema: object({
@@ -87,12 +88,12 @@
       <SelectCompany />
     </div>
     <div class="form__footer">
-      <button
-        class="button--submit"
+      <Button
+        label="Add job"
+        rounded
+        submit
         :disabled="!meta.dirty || Object.keys(errors).length > 0"
-      >
-        Add Job
-      </button>
+      />
     </div>
   </form>
 </template>
