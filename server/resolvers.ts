@@ -1,4 +1,11 @@
-import { getJobs, addJob } from './db/index.ts';
+import {
+  getJobs,
+  getJob,
+  addJob,
+  registerUser,
+  getUsers,
+  getUser,
+} from './db/index.ts';
 
 // Resolve the GraphQL queries
 export const resolvers = {
@@ -6,26 +13,45 @@ export const resolvers = {
     greeting: () => 'Hello GraphQL World!',
     jobs: async () => {
       const jobs = await getJobs();
-      return jobs?.map((job) => {
-        return {
-          ...job,
-        };
-      });
+      return jobs;
+    },
+    users: async () => {
+      const users = await getUsers();
+      return users;
+    },
+    job: async (_: object, args: { id: string }) => {
+      const job = await getJob(args.id);
+      return job;
+    },
+    user: async (_: object, args: { id: string }) => {
+      const user = await getUser(args.id);
+      return user;
     },
   },
   Job: {
     date: (job) => new Date(job.created_at).toLocaleString('cs-CZ'),
   },
+  User: {
+    date: (user) => new Date(user.created_at).toLocaleString('cs-CZ'),
+  },
   Mutation: {
     registerUser: async (_: object, args: { newValues: object }) => {
-      const user = await registerUser(args.newValues);
-
-      return {
-        code: 200,
-        success: true,
-        message: 'User registered successfully',
-        user,
-      };
+      try {
+        const user = await registerUser(args.newValues);
+        return {
+          code: 200,
+          success: true,
+          message: 'User registered successfully',
+          user,
+        };
+      } catch (err: unknown) {
+        return {
+          code: 500,
+          success: false,
+          message: `Server error while registering user: ${err}`,
+          user: null,
+        };
+      }
     },
 
     addJob: async (_: object, args: { newValues: object }) => {

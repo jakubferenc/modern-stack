@@ -70,7 +70,7 @@
   .add-job-form
       background: white
       border-radius: 5px
-      min-height: 800px
+      min-height: 500px
       display: flex
       align-items: center
       justify-content: flex-start

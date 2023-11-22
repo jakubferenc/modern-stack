@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
-  import JobDetail from '@/components/JobDetail.vue';
+  import UserDetail from '@/components/UserDetail.vue';
   import config from '@@/config/index.ts';
   const props = defineProps({
     id: {
@@ -8,28 +8,28 @@
       required: true,
     },
   });
-  const fetchJob = async () => {
+  const fetchData = async () => {
     const response = await fetch(`${config.API_URL}/graphql`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `query { job(id: "${props.id}") { id, title, company, description, date } }`,
+        query: `query { user(id: "${props.id}") { id, username, password, date } }`,
       }),
     });
     const { data } = await response.json();
-    return data.job;
+    return data.user;
   };
-  const job = ref(null);
+  const user = ref(null);
   onMounted(async () => {
-    job.value = await fetchJob();
+    user.value = await fetchData();
   });
 </script>
 
 <template>
-  <h1>Job detail id #{{ id }}</h1>
-  <JobDetail v-if="job" :job="job" />
+  <h1>User detail id #{{ id }}</h1>
+  <UserDetail v-if="user" :user="user" />
   <p v-else>Job does not exist...</p>
 </template>
 

@@ -1,7 +1,13 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   defineProps<{
-    job: { title: string; id: string; company: string; description: string };
+    job: {
+      title: string;
+      id: string;
+      company: string;
+      description: string;
+      date: string;
+    };
   }>();
 </script>
 
@@ -22,6 +28,10 @@
     <tr>
       <th>description</th>
       <td>{{ job.description }}</td>
+    </tr>
+    <tr>
+      <th>date</th>
+      <td>{{ job.date }}</td>
     </tr>
   </table>
 </template>

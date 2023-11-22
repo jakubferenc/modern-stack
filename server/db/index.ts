@@ -37,7 +37,40 @@ export const getJob = async (id) => {
   }
 };
 
-export const registerUser = async (newValues) => {};
+export const getUsers = async () => {
+  try {
+    const { rows } = await client.query('SELECT * FROM users');
+    return rows;
+  } catch (err) {
+    console.error(err);
+    await client.end();
+  }
+};
+
+export const getUser = async (id) => {
+  try {
+    const { rows } = await client.query('SELECT * FROM users WHERE id = $1', [
+      id,
+    ]);
+    return rows[0];
+  } catch (err) {
+    console.error(err);
+    await client.end();
+  }
+};
+
+export const registerUser = async (newValues) => {
+  try {
+    const res = await client.query(
+      'INSERT INTO users(username, password) VALUES($1, $2) RETURNING *',
+      [newValues.username, newValues.password],
+    );
+    return res.rows[0];
+  } catch (err) {
+    console.error(err);
+    await client.end();
+  }
+};
 
 export const addJob = async (newValues) => {
   try {

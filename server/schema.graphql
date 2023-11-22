@@ -1,7 +1,9 @@
 type Query {
   greeting: String
   job(id: ID!): Job
+  user(id: ID!): User
   jobs: [Job!]
+  users: [User!]
 }
 
 type Mutation {
@@ -41,4 +43,11 @@ type Job {
   date: String
   company: String!
   description: String!
+}
+
+type User {
+  id: ID!
+  username: String!
+  password: String!
+  date: String
 }

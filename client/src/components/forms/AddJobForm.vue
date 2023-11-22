@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useForm } from 'vee-validate';
   import { object, string } from 'yup';
-  import config from '@@/config/index.ts';
+  import config from '@@/config/index';
   import SelectCompany from '@/components/forms/SelectCompany.vue';
   import Button from 'primevue/button';
 
@@ -112,7 +112,7 @@
   .add-job-form
       background: white
       border-radius: 5px
-      min-height: 800px
+      min-height: 500px
       display: flex
       align-items: center
       justify-content: flex-start
