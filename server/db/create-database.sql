@@ -11,6 +11,18 @@ CREATE TABLE jobs
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users
+(
+    id SERIAL,
+    username text,
+    password text,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (id)
+);
+
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -23,3 +35,9 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON jobs
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON users
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+

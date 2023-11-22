@@ -9,7 +9,7 @@ export const resolvers = {
       return jobs?.map((job) => {
         return {
           ...job,
-        }
+        };
       });
     },
   },
@@ -17,8 +17,18 @@ export const resolvers = {
     date: (job) => new Date(job.created_at).toLocaleString('cs-CZ'),
   },
   Mutation: {
-    addJob: async (_: object, args: { newValues: object }) => {
+    registerUser: async (_: object, args: { newValues: object }) => {
+      const user = await registerUser(args.newValues);
 
+      return {
+        code: 200,
+        success: true,
+        message: 'User registered successfully',
+        user,
+      };
+    },
+
+    addJob: async (_: object, args: { newValues: object }) => {
       const job = await addJob(args.newValues);
 
       return {
@@ -26,8 +36,7 @@ export const resolvers = {
         success: true,
         message: 'Job added successfully',
         job,
-      }
-      
+      };
     },
-  }
+  },
 };

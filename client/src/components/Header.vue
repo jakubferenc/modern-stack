@@ -21,6 +21,9 @@
         <router-link to="/login">User</router-link>
       </li>
       <li v-if="!loggedIn" class="main-menu__link">
+        <router-link to="/register">Register</router-link>
+      </li>
+      <li v-if="!loggedIn" class="main-menu__link">
         <router-link to="/login">Login</router-link>
       </li>
       <li v-if="loggedIn" class="main-menu__link">

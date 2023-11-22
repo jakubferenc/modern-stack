@@ -6,7 +6,6 @@ const connection_string = {
 };
 const client = new pg.Pool(connection_string);
 
-
 // the pool will emit an error on behalf of any idle clients
 // it contains if a backend error or network partition happens
 client.on('error', (err) => {
@@ -38,13 +37,14 @@ export const getJob = async (id) => {
   }
 };
 
+export const registerUser = async (newValues) => {};
+
 export const addJob = async (newValues) => {
   try {
-    const res = await client.query('INSERT INTO jobs(title, company, description) VALUES($1, $2, $3) RETURNING *', [
-      newValues.title,
-      newValues.company,
-      newValues.description,
-    ]);
+    const res = await client.query(
+      'INSERT INTO jobs(title, company, description) VALUES($1, $2, $3) RETURNING *',
+      [newValues.title, newValues.company, newValues.description],
+    );
     return res.rows[0];
   } catch (err) {
     console.error(err);
