@@ -16,7 +16,10 @@
 
   async function onLoginSubmit() {
     // emit the login event
-    emit('login', values);
+    emit('login', {
+      username: values.username,
+      password: values.password,
+    });
   }
 
   function onInvalidSubmit(

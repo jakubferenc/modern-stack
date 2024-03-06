@@ -2,5 +2,8 @@ export const checkPasswordMatch = (
   password: string,
   passwordConfirm: string,
 ) => {
-  return password === passwordConfirm;
+  return (
+    password.toLowerCase().toString() ===
+    passwordConfirm.toLowerCase().toString()
+  );
 };
