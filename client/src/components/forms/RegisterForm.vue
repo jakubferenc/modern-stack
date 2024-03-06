@@ -2,6 +2,11 @@
   import { useForm } from 'vee-validate';
   import { object, string, ref } from 'yup';
   import config from '@@/config/index';
+  import { useToast } from 'primevue/usetoast';
+
+  import { onMounted } from 'vue';
+
+  const toast = useToast();
 
   const { values, errors, meta, handleSubmit, defineInputBinds } = useForm({
     validationSchema: object({
@@ -17,17 +22,20 @@
   const password = defineInputBinds('password');
   const passwordRepeat = defineInputBinds('passwordRepeat');
 
-  async function registerUserHandler() {
+  async function registerHandler() {
     const query = `
-      mutation RegisterUser($newValues: UserInput!) {
-        registerUser(newValues: $newValues) {
-          user {
-            username
-            password
+        mutation RegisterUser($newValues: UserInput!) {
+          registerUser(newValues: $newValues) {
+            success,
+            message,
+            code,
+            user {
+              username
+              password
+            }
           }
         }
-      }
-    `;
+      `;
 
     const response = await fetch(`${config.API_URL}/graphql`, {
       method: 'POST',
@@ -46,6 +54,12 @@
     });
 
     const { data } = await response.json();
+    toast.add({
+      severity: 'info',
+      summary: 'User registration',
+      detail: data.registerUser.message,
+      life: 10000,
+    });
     return data;
   }
 
@@ -57,7 +71,7 @@
     console.log(results); // a detailed map of field names and their validation results
   }
 
-  const onSubmit = handleSubmit(registerUserHandler, onInvalidSubmit);
+  const onSubmit = handleSubmit(registerHandler, onInvalidSubmit);
 </script>
 
 <template>
@@ -67,14 +81,14 @@
     <div class="form-input__wrapper">
       <label for="title">Username</label>
       <div class="form-input__input">
-        <input type="email" name="username" id="title" v-bind="username" />
+        <input type="email" name="username" v-bind="username" />
         <span class="error">{{ errors.username }}</span>
       </div>
     </div>
     <div class="form-input__wrapper">
       <label for="title">Password</label>
       <div class="form-input__input">
-        <input type="password" name="password" id="title" v-bind="password" />
+        <input type="password" name="password" v-bind="password" />
         <span class="error">{{ errors.password }}</span>
       </div>
     </div>

@@ -31,6 +31,7 @@
   <h1>Job detail id #{{ id }}</h1>
   <JobDetail v-if="job" :job="job" />
   <p v-else>Job does not exist...</p>
+  jhn
 </template>
 
 <style scoped></style>

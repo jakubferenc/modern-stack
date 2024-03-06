@@ -9,6 +9,12 @@ type Query {
 type Mutation {
   addJob(newValues: JobInput!): AddJobResponse!
   registerUser(newValues: UserInput!): RegisterUserResponse!
+  authenticateUser(newValues: AuthInput!): AuthResponse!
+}
+
+type Tokens {
+  accessToken: String
+  refreshToken: String
 }
 
 type AddJobResponse {
@@ -23,6 +29,18 @@ type RegisterUserResponse {
   success: Boolean!
   message: String!
   user: User
+}
+
+type AuthReponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  token: Tokens
+}
+
+input AuthInput {
+  username: String!
+  token: String!
 }
 
 input JobInput {

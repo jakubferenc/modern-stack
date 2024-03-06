@@ -1,3 +1,4 @@
+import { ServerResponse } from 'serverResponses';
 import {
   getJobs,
   getJob,
@@ -5,7 +6,10 @@ import {
   registerUser,
   getUsers,
   getUser,
+  getUserByEmail,
 } from './db/index.ts';
+import { checkPasswordMatch } from './helpers.ts';
+import { sign } from 'jsonwebtoken';
 
 // Resolve the GraphQL queries
 export const resolvers = {
@@ -35,6 +39,51 @@ export const resolvers = {
     date: (user) => new Date(user.created_at).toLocaleString('cs-CZ'),
   },
   Mutation: {
+    authenticateUser: async (
+      _: object,
+      args: { email: string; password: string },
+    ): Promise<ServerResponse> => {
+      try {
+        // check if user exists and password is correct
+        const user = await getUserByEmail(args.email);
+        const passwordMatch = checkPasswordMatch(user.password, args.password);
+
+        if (!user) {
+          return {
+            code: 401,
+            success: false,
+            message: 'User not found',
+            token: null,
+          };
+        }
+
+        if (!passwordMatch) {
+          return {
+            code: 401,
+            success: false,
+            message: 'Password is incorrect',
+            token: null,
+          };
+        }
+
+        // generate token
+        const token = sign();
+        return {
+          code: 200,
+          success: true,
+          message: 'User authenticated successfully',
+          token,
+        };
+      } catch (err: unknown) {
+        return {
+          code: 500,
+          success: false,
+          message: `Server error while authenticating user: ${err}`,
+          token: null,
+        };
+      }
+    },
+
     registerUser: async (_: object, args: { newValues: object }) => {
       try {
         const user = await registerUser(args.newValues);
@@ -66,3 +115,4 @@ export const resolvers = {
     },
   },
 };
+export default resolvers;

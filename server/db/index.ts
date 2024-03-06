@@ -47,6 +47,19 @@ export const getUsers = async () => {
   }
 };
 
+export const getUserByEmail = async (email) => {
+  try {
+    const { rows } = await client.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email],
+    );
+    return rows[0];
+  } catch (err) {
+    console.error(err);
+    await client.end();
+  }
+};
+
 export const getUser = async (id) => {
   try {
     const { rows } = await client.query('SELECT * FROM users WHERE id = $1', [

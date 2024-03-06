@@ -15,11 +15,13 @@
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-vue": "^9.17.0",
+    "express-jwt": "^8.4.1",
     "prettier": "3.0.3",
     "sass": "^1.69.3",
     "vue-tsc": "^1.8.19"
   },
   "dependencies": {
+    "graphql": "^16.8.1",
     "primevue": "^3.41.0",
     "vee-validate": "^4.11.8",
     "vite": "^4.4.11",

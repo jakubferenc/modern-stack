@@ -1,5 +1,6 @@
 .teamcity/target
 .teamcity/.idea
+.DS_Store
 
 coverage
 dist

@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { useForm } from 'vee-validate';
   import { object, string } from 'yup';
+  import config from '@@/config/index';
 
   const { values, errors, meta, handleSubmit, defineInputBinds } = useForm({
     validationSchema: object({
@@ -12,8 +13,36 @@
   const username = defineInputBinds('username');
   const password = defineInputBinds('password');
 
-  function onSuccess(values: object) {
-    alert('login success');
+  async function loginHandler() {
+    const query = `
+      mutation LoginUser($newValues: UserInput!) {
+        loginUser(newValues: $newValues) {
+          code
+          success
+          message
+          token
+        }
+      }
+    `;
+
+    const response = await fetch(`${config.API_URL}/graphql`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          newValues: {
+            username: values.username,
+            password: values.password,
+          },
+        },
+      }),
+    });
+
+    const { data } = await response.json();
+    return data;
   }
 
   function onInvalidSubmit(
@@ -24,7 +53,7 @@
     console.log(results); // a detailed map of field names and their validation results
   }
 
-  const onSubmit = handleSubmit(onSuccess, onInvalidSubmit);
+  const onSubmit = handleSubmit(loginHandler, onInvalidSubmit);
 </script>
 
 <template>
