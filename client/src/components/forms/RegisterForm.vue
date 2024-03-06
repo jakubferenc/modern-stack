@@ -4,8 +4,6 @@
   import config from '@@/config/index';
   import { useToast } from 'primevue/usetoast';
 
-  import { onMounted } from 'vue';
-
   const toast = useToast();
 
   const { values, errors, meta, handleSubmit, defineInputBinds } = useForm({
@@ -58,7 +56,7 @@
       severity: 'info',
       summary: 'User registration',
       detail: data.registerUser.message,
-      life: 10000,
+      life: 5000,
     });
     return data;
   }

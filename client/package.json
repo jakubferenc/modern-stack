@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "graphql": "^16.8.1",
+    "pinia": "^2.1.7",
     "primevue": "^3.41.0",
     "vee-validate": "^4.11.8",
     "vite": "^4.4.11",

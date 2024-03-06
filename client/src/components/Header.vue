@@ -1,6 +1,7 @@
 <script setup lang="ts">
+  import config from '@@/config';
   import { ref } from 'vue';
-  const loggedIn = ref(false);
+  const loggedIn = ref(localStorage.getItem(config.ACCESS_TOKEN_KEY) !== null);
 </script>
 
 <template>
@@ -21,7 +22,7 @@
     </ul>
     <ul class="main-menu__user">
       <li v-if="loggedIn" class="main-menu__link">
-        <router-link to="/login">User</router-link>
+        <router-link to="/user">User</router-link>
       </li>
       <li v-if="!loggedIn" class="main-menu__link">
         <router-link to="/register">Register</router-link>

@@ -9,7 +9,6 @@ type Query {
 type Mutation {
   addJob(newValues: JobInput!): AddJobResponse!
   registerUser(newValues: UserInput!): RegisterUserResponse!
-  authenticateUser(newValues: AuthInput!): AuthResponse!
 }
 
 type Tokens {

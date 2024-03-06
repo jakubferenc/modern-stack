@@ -8,6 +8,8 @@ import UserDetail from '@/views/UserDetailView.vue';
 import AddJob from '@/views/AddJobView.vue';
 import Login from '@/views/LoginView.vue';
 import Register from '@/views/RegisterView.vue';
+import config from '@@/config';
+import { useToast } from 'primevue/usetoast';
 
 const routes = [
   {
@@ -20,6 +22,27 @@ const routes = [
     name: 'Login',
     meta: { title: 'Login' },
     component: Login,
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: {
+      beforeRouteEnter(_, from, next) {
+        const toast = useToast();
+
+        if (!from) {
+          console.log('no from');
+        }
+        localStorage.removeItem(config.ACCESS_TOKEN_KEY);
+        toast.add({
+          severity: 'info',
+          summary: 'User loggout',
+          detail: 'User logged out successfully',
+          life: 5000,
+        });
+        next('/');
+      },
+    },
   },
   {
     path: '/register',
