@@ -28,7 +28,6 @@ const routes = [
     component: {
       beforeRouteEnter(_, from, next) {
         const authStore = useAuthStore();
-
         if (!from) {
           console.log('no from');
         }
