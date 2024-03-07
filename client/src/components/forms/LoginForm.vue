@@ -40,14 +40,14 @@
     <div class="form-input__wrapper">
       <label for="title">Username</label>
       <div class="form-input__input">
-        <input type="email" name="username" id="title" v-bind="username" />
+        <input type="email" name="username" v-bind="username" />
         <span class="error">{{ errors.username }}</span>
       </div>
     </div>
     <div class="form-input__wrapper">
       <label for="title">Password</label>
       <div class="form-input__input">
-        <input type="password" name="password" id="title" v-bind="password" />
+        <input type="password" name="password" v-bind="password" />
         <span class="error">{{ errors.password }}</span>
       </div>
     </div>

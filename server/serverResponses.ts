@@ -7,7 +7,7 @@ export interface BasicServerResponse {
 export interface AuthResponse extends BasicServerResponse {
   token: string | null;
 }
-export interface ServerResponse extends AuthResponse {
+export interface ServerResponse extends BasicServerResponse {
   user?: object | null;
   job?: object | null;
 }

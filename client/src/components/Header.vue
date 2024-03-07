@@ -1,7 +1,9 @@
 <script setup lang="ts">
-  import config from '@@/config';
-  import { ref } from 'vue';
-  const loggedIn = ref(localStorage.getItem(config.ACCESS_TOKEN_KEY) !== null);
+  import { computed } from 'vue';
+  import { useAuthStore } from '@/stores/auth';
+
+  const authStore = useAuthStore();
+  const isLoggedIn = computed(() => authStore.isAuthenticated);
 </script>
 
 <template>
@@ -21,18 +23,22 @@
       </li>
     </ul>
     <ul class="main-menu__user">
-      <li v-if="loggedIn" class="main-menu__link">
-        <router-link to="/user">User</router-link>
-      </li>
-      <li v-if="!loggedIn" class="main-menu__link">
-        <router-link to="/register">Register</router-link>
-      </li>
-      <li v-if="!loggedIn" class="main-menu__link">
-        <router-link to="/login">Login</router-link>
-      </li>
-      <li v-if="loggedIn" class="main-menu__link">
-        <router-link to="/logout">Logout</router-link>
-      </li>
+      <template v-if="isLoggedIn">
+        <li class="main-menu__link">
+          <router-link to="/user">User</router-link>
+        </li>
+        <li class="main-menu__link">
+          <router-link to="/logout">Logout</router-link>
+        </li>
+      </template>
+      <template v-if="!isLoggedIn">
+        <li class="main-menu__link">
+          <router-link to="/register">Register</router-link>
+        </li>
+        <li class="main-menu__link">
+          <router-link to="/login">Login</router-link>
+        </li>
+      </template>
     </ul>
   </nav>
 </template>
