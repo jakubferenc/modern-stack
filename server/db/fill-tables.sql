@@ -10,3 +10,9 @@ VALUES
   ('DevOps Engineer', 'CloudOps Technologies', 'Streamline development and deployment processes through automation, monitoring, and continuous integration.'),
   ('QA Engineer', 'QualityAssure Inc.', 'Perform rigorous testing to ensure the quality and functionality of software applications, identifying and reporting bugs.'),
   ('Technical Support Specialist', 'HelpDesk Solutions', 'Provide technical assistance and support to users, troubleshoot issues, and ensure smooth software usage.');
+
+
+INSERT INTO users (username, password) VALUES
+    ('jakubferenc1911@gmail.com', '19111989'),
+    ('user2', 'password2'),
+    ('user5', 'password5');
