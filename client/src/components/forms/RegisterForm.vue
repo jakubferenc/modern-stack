@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import { useForm } from 'vee-validate';
   import { object, string, ref } from 'yup';
-  import config from '@@/config/index';
   import { useToast } from 'primevue/usetoast';
+  import ApiService from '@@/src/services/api.service';
 
   const toast = useToast();
 
@@ -35,23 +35,17 @@
         }
       `;
 
-    const response = await fetch(`${config.API_URL}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables: {
-          newValues: {
-            username: values.username,
-            password: values.password,
-          },
+    const response = await ApiService.post(`/graphql`, {
+      query,
+      variables: {
+        newValues: {
+          username: values.username,
+          password: values.password,
         },
-      }),
+      },
     });
 
-    const { data } = await response.json();
+    const { data } = response;
     toast.add({
       severity: 'info',
       summary: 'User registration',

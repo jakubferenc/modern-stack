@@ -1,19 +1,13 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import UsersTable from '@/components/UsersTable.vue';
-  import config from '@@/config/index.ts';
+  import ApiService from '../services/api.service';
 
   const fetchUsers = async () => {
-    const response = await fetch(`${config.API_URL}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `query { users { id, username, password, date } }`,
-      }),
+    const response = await ApiService.post(`/graphql`, {
+      query: `query { users { id, username, password, date } }`,
     });
-    const { data } = await response.json();
+    const { data } = response;
     return data.users;
   };
   const users = ref([]);

@@ -1,19 +1,13 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import JobTable from '@/components/JobTable.vue';
-  import config from '@@/config/index.ts';
+  import ApiService from '../services/api.service';
 
   const fetchJobs = async () => {
-    const response = await fetch(`${config.API_URL}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `query { jobs { id, title, company, description, date } }`,
-      }),
+    const response = await ApiService.post(`/graphql`, {
+      query: `query { jobs { id, title, company, description, date } }`,
     });
-    const { data } = await response.json();
+    const { data } = response;
     return data.jobs;
   };
   const jobs = ref([]);

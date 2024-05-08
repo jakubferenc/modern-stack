@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { onMounted, ref } from 'vue';
   import UserDetail from '@/components/UserDetail.vue';
-  import config from '@@/config/index.ts';
+
+  import ApiService from '../services/api.service';
+
   const props = defineProps({
     id: {
       type: String,
@@ -9,16 +11,10 @@
     },
   });
   const fetchData = async () => {
-    const response = await fetch(`${config.API_URL}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `query { user(id: "${props.id}") { id, username, password, date } }`,
-      }),
+    const response = await ApiService.post(`/graphql`, {
+      query: `query { user(id: "${props.id}") { id, username, password, date } }`,
     });
-    const { data } = await response.json();
+    const { data } = response;
     return data.user;
   };
   const user = ref(null);

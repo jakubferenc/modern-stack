@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { Token } from '../models/auth';
-import { authenticateWithCredentials } from '../services/authService';
+import AuthService from '../services/authService';
 import { AuthRequest, AuthJWTResponse } from '../models/auth';
 import config from '../../config';
 
@@ -9,9 +9,10 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<Token>(null);
   const isAuthenticated = computed(() => token.value && token.value !== null);
   async function authenticate(payload: AuthRequest): Promise<Token> {
-    const authJWTResponse = (await authenticateWithCredentials(
+    const authJWTResponse = (await AuthService.authenticateWithCredentials(
       payload,
     )) as AuthJWTResponse;
+
     if (authJWTResponse.token) {
       _setToken(authJWTResponse.token);
       return authJWTResponse.token;

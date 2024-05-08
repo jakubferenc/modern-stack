@@ -46,7 +46,6 @@ import jwt from 'jsonwebtoken';
       if (!user) {
         res.status(401).send({
           code: 401,
-          success: false,
           message: 'User not found',
           token: null,
         });
@@ -69,7 +68,7 @@ import jwt from 'jsonwebtoken';
           data: { username: req.body.username },
         },
         serverSecret,
-        { expiresIn: 60 * 60 },
+        { expiresIn: '1h' },
       );
 
       res.status(200).send({
@@ -88,6 +87,33 @@ import jwt from 'jsonwebtoken';
       });
       return;
     }
+  });
+
+  app.get('/protected', (req, res) => {
+    const authHeader = req.headers?.['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) {
+      res.status(401).send({
+        code: 401,
+        message: 'No token provided',
+      });
+    }
+
+    jwt.verify(token as string, serverSecret, (err, decoded) => {
+      if (err) {
+        res.status(401).send({
+          code: 401,
+          message: 'Failed to authenticate token',
+        });
+        return;
+      }
+
+      res.status(200).send({
+        code: 200,
+        message: 'Token authenticated successfully',
+        data: decoded,
+      });
+    });
   });
 
   app.listen({ port: PORT }, () => {

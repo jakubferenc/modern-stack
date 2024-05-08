@@ -4,6 +4,7 @@
   import config from '@@/config/index';
   import SelectCompany from '@/components/forms/SelectCompany.vue';
   import Button from 'primevue/button';
+  import ApiService from '@/services/api.service';
 
   const { values, errors, meta, handleSubmit, defineInputBinds } = useForm({
     validationSchema: object({
@@ -30,24 +31,19 @@
         }
     `;
 
-    const response = await fetch(`${config.API_URL}/graphql`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables: {
-          newValues: {
-            id: '00',
-            title: newJobValues.jobTitle,
-            company: newJobValues.jobCompany,
-            description: newJobValues.jobDescription,
-          },
+    const response = await ApiService.post('/graphql', {
+      query,
+      variables: {
+        newValues: {
+          id: '00',
+          title: newJobValues.jobTitle,
+          company: newJobValues.jobCompany,
+          description: newJobValues.jobDescription,
         },
-      }),
+      },
     });
-    const { data } = await response.json();
+
+    const { data } = response;
     return data;
   };
 
