@@ -7,7 +7,7 @@ class ApiService {
 
     const headers: HeadersInit = {};
 
-    if (auth) {
+    if (auth && token) {
       headers.Authorization = `Bearer ${token}`;
     }
 
@@ -24,7 +24,7 @@ class ApiService {
       'Content-Type': 'application/json',
     };
 
-    if (auth) {
+    if (auth && token) {
       headers.Authorization = `Bearer ${token}`;
     }
 
@@ -34,7 +34,7 @@ class ApiService {
       body: JSON.stringify(data),
     });
 
-    return await request.json();
+    return request.json();
   }
 }
 
