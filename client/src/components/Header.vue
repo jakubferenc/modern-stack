@@ -15,7 +15,7 @@
       <li class="main-menu__link">
         <router-link to="/jobs">Jobs</router-link>
       </li>
-      <li class="main-menu__link">
+      <li v-if="isLoggedIn" class="main-menu__link">
         <router-link to="/jobs/add">Add job</router-link>
       </li>
       <li class="main-menu__link">

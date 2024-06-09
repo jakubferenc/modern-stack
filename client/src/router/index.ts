@@ -80,6 +80,14 @@ const routes = [
     path: '/jobs/add',
     name: 'Add job',
     component: AddJob,
+    beforeEnter: (to, from, next) => {
+      const authStore = useAuthStore();
+      if (!authStore.isAuthenticated) {
+        next({ name: 'Login' });
+      } else {
+        next();
+      }
+    },
   },
 ] as RouteRecordRaw[];
 
