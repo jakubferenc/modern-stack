@@ -80,7 +80,7 @@ const routes = [
     path: '/jobs/add',
     name: 'Add job',
     component: AddJob,
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (_to, _from, next) => {
       const authStore = useAuthStore();
       if (!authStore.isAuthenticated) {
         next({ name: 'Login' });
