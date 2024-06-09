@@ -20,7 +20,8 @@
         detail: 'You have been logged in',
         life: 3000,
       });
-      router.push('/');
+      const redirect = route.query.redirect || '/';
+      router.push(redirect);
     } else {
       toast.add({
         severity: 'error',

@@ -9,8 +9,9 @@ import AddJob from '@/views/AddJobView.vue';
 import Login from '@/views/LoginView.vue';
 import Register from '@/views/RegisterView.vue';
 import { useAuthStore } from '../stores/auth';
+import { requireAuth } from '../middleware/auth';
 
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
@@ -25,6 +26,7 @@ const routes = [
   {
     path: '/logout',
     name: 'Logout',
+    meta: { requiresAuth: true },
     component: {
       beforeRouteEnter(_, from, next) {
         const authStore = useAuthStore();
@@ -57,6 +59,12 @@ const routes = [
         component: JobDetail,
         props: true,
       },
+      {
+        path: 'add',
+        name: 'Add job',
+        component: AddJob,
+        meta: { requiresAuth: true },
+      },
     ],
   },
   {
@@ -76,24 +84,14 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/jobs/add',
-    name: 'Add job',
-    component: AddJob,
-    beforeEnter: (_to, _from, next) => {
-      const authStore = useAuthStore();
-      if (!authStore.isAuthenticated) {
-        next({ name: 'Login' });
-      } else {
-        next();
-      }
-    },
-  },
-] as RouteRecordRaw[];
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+// Apply the requireAuth middleware globally
+router.beforeEach(requireAuth);
 
 export default router;
