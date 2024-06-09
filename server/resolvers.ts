@@ -6,6 +6,7 @@ import {
   getUsers,
   getUser,
 } from './db/index.ts';
+import { authDecorator } from './helpers.ts';
 
 // Resolve the GraphQL queries
 export const resolvers = {
@@ -54,15 +55,18 @@ export const resolvers = {
       }
     },
 
-    addJob: async (_: object, args: { newValues: object }) => {
-      const job = await addJob(args.newValues);
+    addJob: async (_: object, args: { newValues: object }, context) => {
+      return await authDecorator(context, async ({ auth }) => {
+        console.log('auth', auth);
+        const job = await addJob(args.newValues);
 
-      return {
-        code: 200,
-        success: true,
-        message: 'Job added successfully',
-        job,
-      };
+        return {
+          code: 200,
+          success: true,
+          message: 'Job added successfully',
+          job,
+        };
+      });
     },
   },
 };

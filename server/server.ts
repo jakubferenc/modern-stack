@@ -6,14 +6,13 @@ import { readFile } from 'node:fs/promises';
 import resolvers from './resolvers.ts';
 
 import { getUserByEmail } from './db/index.ts';
-import { checkPasswordMatch } from './helpers.ts';
+import { checkPasswordMatch, getJwtTokenFromHeader } from './helpers.ts';
+import { GqlContext } from './types.ts';
 import jwt from 'jsonwebtoken';
 
 (async () => {
   const ROOT_DIR = process.cwd();
   const PORT = 9000;
-
-  const serverSecret = 'mySecret';
 
   const typeDefs = await readFile(`${ROOT_DIR}/schema.graphql`, 'utf8');
 
@@ -23,14 +22,22 @@ import jwt from 'jsonwebtoken';
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    // context: ({ req }) => {
-    //   console.log(req);
-    // },
   });
+
+  const getGqlContext = async ({ req }): Promise<GqlContext> => {
+    return {
+      headers: req.headers,
+    };
+  };
 
   await apolloServer.start();
 
-  app.use('/graphql', apolloMiddleware(apolloServer));
+  app.use(
+    '/graphql',
+    apolloMiddleware(apolloServer, {
+      context: getGqlContext,
+    }),
+  );
 
   app.post('/login', async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
@@ -67,7 +74,7 @@ import jwt from 'jsonwebtoken';
         {
           data: { username: req.body.username },
         },
-        serverSecret,
+        process.env.SERVER_SECRET as string,
         { expiresIn: '1h' },
       );
 
@@ -90,8 +97,15 @@ import jwt from 'jsonwebtoken';
   });
 
   app.get('/protected', (req, res) => {
-    const authHeader = req.headers?.['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    if (!req.headers?.authorization) {
+      res.status(401).send({
+        code: 401,
+        message: 'No token provided',
+      });
+      return;
+    }
+    const token = getJwtTokenFromHeader(req.headers.authorization);
+
     if (!token) {
       res.status(401).send({
         code: 401,
@@ -99,21 +113,25 @@ import jwt from 'jsonwebtoken';
       });
     }
 
-    jwt.verify(token as string, serverSecret, (err, decoded) => {
-      if (err) {
-        res.status(401).send({
-          code: 401,
-          message: 'Failed to authenticate token',
-        });
-        return;
-      }
+    jwt.verify(
+      token as string,
+      process.env.SERVER_SECRET as string,
+      (err, decoded) => {
+        if (err) {
+          res.status(401).send({
+            code: 401,
+            message: 'Failed to authenticate token',
+          });
+          return;
+        }
 
-      res.status(200).send({
-        code: 200,
-        message: 'Token authenticated successfully',
-        data: decoded,
-      });
-    });
+        res.status(200).send({
+          code: 200,
+          message: 'Token authenticated successfully',
+          data: decoded,
+        });
+      },
+    );
   });
 
   app.listen({ port: PORT }, () => {

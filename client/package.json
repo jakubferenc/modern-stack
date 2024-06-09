@@ -21,6 +21,7 @@
     "vue-tsc": "^1.8.19"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "graphql": "^16.8.1",
     "pinia": "^2.1.7",
     "primevue": "^3.41.0",
